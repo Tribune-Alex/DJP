@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body>
+    <h1>Products</h1>
+
+<ul>
+    {% for product in products %}
+        <li>
+            {{ product.name }} - {{ product.price }}₾
+            {% if product.is_discounted %}
+                <strong style="color:red;">SALE</strong>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+<h2>Categories</h2>
+
+<ul>
+    {% for category in categories %}
+        <li>
+            <a href="{% url 'category_products' category.id %}">
+                {{ category.name }} ({{ category.product_count }})
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'discounted_products' %}">ფასდაკლებები</a>
+</body>
+</html>
