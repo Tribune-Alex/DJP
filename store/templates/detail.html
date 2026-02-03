@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="card" style="width: 18rem;">
+         <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+        <p class="card-text"><h4>{{product.name}}</h4>
+                                <p>ფასი:{{product.price}}</p>
+                                    <p>კატეგორია:{{product.category}}</p></p>
+    </div>
+</div>
+
+{% endblock %}
+    <!-- <h2>დასახელება:{{product.name}}</h2>
+    <p>ფასი:{{product.price}}</p>
+    <p>კატეგორია:{{product.category}}</p>
+    <a href="{% url 'store:home' %}">მთავარი</a> -->

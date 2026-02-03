@@ -1,36 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}Products{% endblock %}
+{% block content %}
     <h1>Products</h1>
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4">
+                <div class="card mb-4" style="width: 18rem;">
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.price }}₾</p>
+                        <a href="{% url 'store:detail' product_pk=product.pk %}" class="btn btn-primary">See More</a>
+                        <span class="badge bg-secondary">{{product.category.name}}</span>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No products available.</p>
+        {% endfor %}
+    </div>
+    {% endblock %}
 
-<ul>
-    {% for product in products %}
-        <li>
-            {{ product.name }} - {{ product.price }}₾
-            {% if product.is_discounted %}
-                <strong style="color:red;">SALE</strong>
-            {% endif %}
-        </li>
-    {% endfor %}
-</ul>
+    <!-- <h2>Categories</h2>
+    <ul>
+        {% for category in categories %}
+            <li>
+                <a href="{% url 'store:category_products' category.id %}">
+                    {{ category.name }} ({{ category.product_count }})
+                </a>
+            </li>
+        {% empty %}
+            <p>No categories available.</p>
+        {% endfor %}
+    </ul> -->
 
-<h2>Categories</h2>
-
-<ul>
-    {% for category in categories %}
-        <li>
-            <a href="{% url 'category_products' category.id %}">
-                {{ category.name }} ({{ category.product_count }})
-            </a>
-        </li>
-    {% endfor %}
-</ul>
-
-<a href="{% url 'discounted_products' %}">ფასდაკლებები</a>
-</body>
-</html>

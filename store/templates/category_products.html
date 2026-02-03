@@ -1,23 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products</title>
-</head>
-<body>
-    <h1>{{ category.name }}</h1>
+{% extends 'base.html' %}
 
-<ul>
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ category.name }}</h1>
+
+<div class="row">
     {% for product in products %}
-        <li>
-            {{ product.name }} - {{ product.price }}₾
-            {% if product.is_discounted %}
-                <strong style="color:red;">SALE</strong>
-            {% endif %}
-        </li>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" style="width: 18rem;">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/150" class="card-img-top" alt="No image">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">
+                        {{ product.price }}₾
+                        {% if product.is_discounted %}
+                            <span class="badge bg-danger">SALE</span>
+                        {% endif %}
+                    </p>
+                    <a href="{% url 'store:detail' product_pk=product.pk %}" class="btn btn-primary">See More</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>No products in this category.</p>
     {% endfor %}
-</ul>
-<a href="{% url 'home' %}">მთავარი</a>
-</body>
-</html>
+</div>
+{% endblock %}
