@@ -1,16 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="card" style="width: 18rem;">
-         <img src="..." class="card-img-top" alt="...">
-          <div class="card-body">
-        <p class="card-text"><h4>{{product.name}}</h4>
-                                <p>ფასი:{{product.price}}</p>
-                                    <p>კატეგორია:{{product.category}}</p></p>
+<div class="container-fluid d-flex justify-content-center align-items-center ps-4">
+<div class="card mx-auto" style="width: 18rem;">
+    <img src="..." class="card-img-top" alt="...">
+    <div class="card-body">
+        <p class="card-text">
+        <h4>{{product.name}}</h4>
+        <p>ფასი:{{product.price}}</p>
+        <p>კატეგორია:{{product.category}}</p>
+        <p>რაოდენობა:{{product.quantity}}</p>
+        <br>
+        <div class="d-flex p-3">
+        <a href="{% url 'store:update' product.pk %}" class="btn btn-success rounded-pill px-4">
+            UPDATE
+        </a>
+        <form method="post" action="{% url 'store:delete' product.pk %}">
+            {% csrf_token %}
+            <button class="btn btn-danger rounded-pill px-4 ms-3">DELETE</button>
+        </form>
+        </div>
     </div>
+</div>
 </div>
 
 {% endblock %}
-    <!-- <h2>დასახელება:{{product.name}}</h2>
-    <p>ფასი:{{product.price}}</p>
-    <p>კატეგორია:{{product.category}}</p>
-    <a href="{% url 'store:home' %}">მთავარი</a> -->

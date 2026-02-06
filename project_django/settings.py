@@ -48,7 +48,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'store',
     "debug_toolbar",
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -73,7 +80,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'store.context_processors.categories_processor'
+                'store.context_processors.categories_processor',
+                'store.context_processors.latest_products',
             ],
         },
     },
@@ -128,6 +136,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS=[BASE_DIR / 'store/static']
+
 
 INTERNAL_IPS = [
     "127.0.0.1",

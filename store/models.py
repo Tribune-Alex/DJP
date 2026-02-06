@@ -16,6 +16,7 @@ class Product(models.Model):
         on_delete=models.CASCADE,
         related_name='products'
     )
+    quantity = models.PositiveIntegerField(default=0)
     is_discounted = models.BooleanField(default=False)
     is_available = models.BooleanField(default=True)
 
