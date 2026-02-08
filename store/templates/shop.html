@@ -17,7 +17,6 @@
 
 <div class="container-fluid px-0">
     <div class="row g-0">
-        {% comment %} Можно вынести этот блок в отдельный include для компактности {% endcomment %}
         {% for feature in features %}
         <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="{{ forloop.counter0|add:'0.1' }}s">
             <div class="p-4 d-flex align-items-center">
@@ -61,7 +60,7 @@
                     <h4>Recently Added</h4>
                     <ul class="list-unstyled">
                         {% for product in latest_products %}
-                        <li><a href="{% url 'store:detail' product.pk %}" class="text-dark">{{ product.name }}</a></li>
+                        <li><a href="{% url 'store:detail' pk=product.id %}" class="text-dark">{{ product.name }}</a></li>
                         {% empty %}
                         <li>No recent products</li>
                         {% endfor %}

@@ -1,16 +1,18 @@
 from django.urls import path
 from store import views
+from store.views import (ProductListView, ShopView,CategoryProductsView,AllCategoriesView,
+                         DiscountedProductsView,ProductDetailView,ProductCreateView,ProductUpdateView,ProductDeleteView)
 
 app_name = 'store'  
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('products/', views.shop, name='shop'),
-    path('categories/', views.all_categories, name='all_categories'),
-    path('category/<int:category_id>/', views.category_products, name='category_products'),
-    path('sales/', views.discounted_products, name='discounted_products'),
-    path('product/<int:product_pk>/', views.detail, name='detail'),
-    path('adding/',views.adding, name='adding'),
-    path('update/<int:product_pk>/',views.update, name='update'),
-    path('delete/<int:product_pk>/',views.delete, name='delete'),
+    path('', ProductListView.as_view(), name='home'),
+    path('products/', ShopView.as_view(), name='shop'),
+    path('categories/', AllCategoriesView.as_view(), name='all_categories'),
+    path('category/<int:category_id>/', CategoryProductsView.as_view(), name='category_products'),
+    path('sales/', DiscountedProductsView.as_view(), name='discounted_products'),
+    path('product/<int:pk>/', ProductDetailView.as_view(), name='detail'),
+    path('adding/', ProductCreateView.as_view(), name='adding'),
+    path('update/<int:pk>/', ProductUpdateView.as_view(), name='update'),
+    path('delete/<int:pk>/', ProductDeleteView.as_view(), name='delete'),
 ]

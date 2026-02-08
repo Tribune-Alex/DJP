@@ -14,7 +14,7 @@
         <h5 class="text-uppercase fw-bold mb-2">Special Offer</h5>
         <h3 class="mb-2">{{ product.name }}</h3>
         <p class="text-muted mb-3">Limited Time Discount!</p>
-        <a href="{% url 'store:detail' product.pk %}" class="btn btn-primary px-4 py-2">Details</a>
+        <a href="{% url 'store:detail' pk=product.id %}" class="btn btn-primary px-4 py-2">Details</a>
     </div>
     {% empty %}
     <p>No discounted products available for the carousel.</p>
@@ -197,7 +197,7 @@
                                     <h5 class="card-title">{{ product.name }}</h5>
                                     <p class="card-text fw-bold">{{ product.price }}₾</p>
                                     <span class="badge bg-secondary mb-2">{{ product.category.name }}</span>
-                                    <a href="{% url 'store:detail' product_pk=product.pk %}" class="btn btn-primary mt-auto">See More</a>
+                                    <a href="{% url 'store:detail' pk=product.id %}" class="btn btn-primary mt-auto">See More</a>
                                 </div>
                             </div>
                         </div>
