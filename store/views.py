@@ -6,6 +6,7 @@ from store.forms import Add_product
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Count, Q
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # def home(request):
@@ -166,11 +167,12 @@ class ProductListView(ListView):
         return context
     
 
-class ShopView(ListView):
+class ShopView(LoginRequiredMixin,ListView):
     model = Product
     template_name = 'shop.html'
     queryset = Product.objects.filter(is_available=True)
     context_object_name = 'products'
+    login_url=reverse_lazy('user:login')
 
     def get_queryset(self):
         return (
@@ -259,23 +261,26 @@ class ProductDetailView(DetailView):
         return context
     
     
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin,CreateView):
     model = Product
     form_class = Add_product
     template_name = 'adding.html'
     success_url = reverse_lazy('store:all_categories')
+    login_url=reverse_lazy('user:login')
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin,UpdateView):
     model = Product
     form_class = Add_product
     queryset = Product.objects.filter(is_available=True)
     template_name = 'update.html'
+    login_url=reverse_lazy('user:login')
 
     def get_success_url(self):
         if not self.object.is_available:
          return reverse_lazy('store:home')
         return reverse_lazy('store:detail', kwargs={'pk': self.object.pk})
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin,DeleteView):
     model = Product
     success_url = reverse_lazy('store:home')
+    login_url=reverse_lazy('user:login')
