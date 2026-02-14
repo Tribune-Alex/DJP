@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Wishlist{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2>My items</h2>
+    <div class="row g-4 mt-3">
+        {% for product in products %}
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                {% if product.images.first %}
+                    <img src="{{ product.images.first.image.url }}" class="img-fluid mb-3" alt="{{ product.name }}">
+                {% else %}
+                    <img src="/media/default.jpg" class="img-fluid mb-3" alt="No image">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text fw-bold">{{ product.price }} ₾</p>
+                    <form method="post" action="{% url 'store:toggle_wishlist' product.pk %}">
+                        {% csrf_token %}
+                        <button class="btn btn-danger mt-auto">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>Your list is empty</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

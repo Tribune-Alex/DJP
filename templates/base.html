@@ -173,6 +173,11 @@
                                 </a>
                             </li>
                             <li>
+                                <a class="dropdown-item" href="{% url 'store:wishlist' %}">
+                                    Wishlist
+                                </a>
+                            </li>
+                            <li>
                                 <form action="{% url 'user:logout' %}" method="POST">
                                     {% csrf_token %}
                                     <button class="dropdown-item">Log Out</button>

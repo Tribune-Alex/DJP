@@ -1,7 +1,7 @@
 from django.urls import path
 from store import views
 from store.views import (ProductListView, ShopView,CategoryProductsView,AllCategoriesView,
-                         DiscountedProductsView,ProductDetailView,ProductCreateView,ProductUpdateView,ProductDeleteView)
+                         DiscountedProductsView,ProductDetailView,ProductCreateView,ProductUpdateView,ProductDeleteView,WishlistView,ToggleWishlistView)
 
 app_name = 'store'  
 
@@ -15,4 +15,6 @@ urlpatterns = [
     path('adding/', ProductCreateView.as_view(), name='adding'),
     path('update/<int:pk>/', ProductUpdateView.as_view(), name='update'),
     path('delete/<int:pk>/', ProductDeleteView.as_view(), name='delete'),
+    path('wishlist/', WishlistView.as_view(), name='wishlist'),
+    path('wishlist/toggle/<int:pk>/', ToggleWishlistView.as_view(), name='toggle_wishlist'),
 ]
