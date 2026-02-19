@@ -5,22 +5,18 @@
 {% block content %}
 
 <div class="container-fluid d-flex justify-content-center align-items-center ps-4">
-<div class="row">
-    <h1>Discounted Products</h1>
-    {% for product in products %}
+    <div class="row">
+        <h1>Discounted Products</h1>
+        {% for product in products %}
         <div class="col-md-4 mb-4">
             <div class="card h-100" style="width: 18rem;">
                 {% if product.images.first %}
-            <img src="{{ product.images.first.image.url }}" 
-                 class="img-fluid mb-3" 
-                 alt="{{ product.name }}" 
-                 style="max-height:300px; object-fit:contain;">
-        {% else %}
-            <img src="/media/default.jpg" 
-                 class="img-fluid mb-3" 
-                 alt="No image" 
-                 style="max-height:300px; object-fit:contain;">
-        {% endif %}
+                <img src="{{ product.images.first.image.url }}" class="img-fluid mb-3" alt="{{ product.name }}"
+                    style="max-height:300px; object-fit:contain;">
+                {% else %}
+                <img src="/media/default.jpg" class="img-fluid mb-3" alt="No image"
+                    style="max-height:300px; object-fit:contain;">
+                {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ product.name }}</h5>
                     <p class="card-text">
@@ -31,10 +27,31 @@
                 </div>
             </div>
         </div>
-    {% empty %}
+        {% empty %}
         <p>No discounted products available.</p>
-    {% endfor %}
+        {% endfor %}
+    </div>
 </div>
+<div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination d-flex mt-3 ms-4">
+            {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">&laquo;First</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+            {% for num in paginator.page_range %}
+            {% if num == page_obj.number %}
+            <li class="page-item active"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+            {% elif num > page_obj.number|add:-2 and num < page_obj.number|add:2 %} <li class="page-item"><a
+                    class="page-link" href="?page={{num}}">{{num}}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ paginator.num_pages }}">Last&raquo;</a></li>
+                {% endif %}
+        </ul>
+    </nav>
 </div>
 {% endblock %}
-

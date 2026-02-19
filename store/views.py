@@ -176,6 +176,7 @@ class ShopView(LoginRequiredMixin, ListView):
     template_name = 'shop.html'
     context_object_name = 'products'
     login_url = reverse_lazy('user:login')
+    paginate_by = 4
 
     def get_queryset(self):
         return (
@@ -259,6 +260,7 @@ class DiscountedProductsView(ListView):
     model = Product
     template_name = 'discounted_products.html'
     context_object_name = 'products'
+    paginate_by = 5
 
     def get_queryset(self):
         return (Product.objects.filter(is_discounted=True, is_available=True).select_related('category').prefetch_related('images'))

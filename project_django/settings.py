@@ -36,6 +36,8 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
+MAINTENANCE_MODE = False
+
 
 # Application definition
 
@@ -46,11 +48,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'store',
     "debug_toolbar",
     "crispy_forms",
     "crispy_bootstrap5",
     "user",
+    'store.apps.StoreConfig',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -67,6 +69,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    'store.middlewares.MaintenanceModeMiddleware'
 ]
 
 ROOT_URLCONF = 'project_django.urls'

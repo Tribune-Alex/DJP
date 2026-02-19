@@ -254,7 +254,8 @@
                                             class="products-mini-content p-3 d-flex flex-column justify-content-between h-100">
                                             <div>
                                                 <a href="{% url 'store:detail' product.pk %}"
-                                                    class="d-block mb-2 text-decoration-none text-dark">{{product.category.name }}</a>
+                                                    class="d-block mb-2 text-decoration-none text-dark">{{product.category.name
+                                                    }}</a>
                                                 <a href="{% url 'store:detail' product.pk %}"
                                                     class="d-block h5 text-dark">{{ product.name }}</a>
                                                 <p class="mb-1 fw-bold">{{ product.price }}₾</p>

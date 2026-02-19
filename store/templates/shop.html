@@ -93,9 +93,11 @@
                             </div>
                             <div class="col-7">
                                 <div class="products-mini-content p-2">
-                                    <a href="{% url 'store:detail' product.pk %}" class="d-block h6 mb-1">{{product.name}}</a>
+                                    <a href="{% url 'store:detail' product.pk %}"
+                                        class="d-block h6 mb-1">{{product.name}}</a>
                                     <span class="text-primary fw-bold">{{ product.price }} ₾</span>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -126,9 +128,34 @@
                             </div>
                         </div>
                     </div>
+
                     {% empty %}
                     <p class="text-center">No products available.</p>
                     {% endfor %}
+                </div>
+                <div>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination d-flex mt-3">
+                            {% if page_obj.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page=1">&laquo;First</a></li>
+                            <li class="page-item"><a class="page-link"
+                                    href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                            {% endif %}
+                            {% for num in paginator.page_range %}
+                                {% if num == page_obj.number %}
+                                 <li class="page-item active"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+                                {% elif num > page_obj.number|add:-2 and  num < page_obj.number|add:2 %}
+                                 <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>    
+                                {% endif %}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                            <li class="page-item"><a class="page-link"
+                                    href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                            <li class="page-item"><a class="page-link"
+                                    href="?page={{ paginator.num_pages }}">Last&raquo;</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
                 </div>
             </div>
 
