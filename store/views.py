@@ -132,26 +132,51 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 #         return redirect('store:home')
 
 #     return redirect('store:detail', product_pk=product_pk)
-
 class ProductListView(ListView):
     model = Product
     template_name = 'home.html'
     context_object_name = 'products'
 
     def get_queryset(self):
-        return (
-            Product.objects
-            .filter(is_available=True)
-            .select_related('category')
-            .prefetch_related('images')
-            .order_by('price')
-        )
+        
+        product = Product.objects.filter(is_available=True).select_related('category').prefetch_related('images')
+
+        
+        search_query = self.request.GET.get('q')
+        if search_query:
+            product = product.filter(Q(name__icontains=search_query))
+
+        
+        min_price = self.request.GET.get('min_price')
+        if min_price:
+            product = product.filter(price__gte=min_price)
+
+        max_price = self.request.GET.get('max_price')
+        if max_price:
+            product = product.filter(price__lte=max_price)
+
+        
+        sort = self.request.GET.get('sort')
+        if sort == 'name_asc':
+            product = product.order_by('name')
+        elif sort == 'name_desc':
+            product = product.order_by('-name')
+        elif sort == 'price_asc':
+            product = product.order_by('price')
+        elif sort == 'price_desc':
+            product = product.order_by('-price')
+        else:
+            product = product.order_by('price')  
+
+        return product
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        
         context['quantity'] = self.get_queryset().count()
 
+        
         context['categories'] = (
             Category.objects
             .annotate(product_count=Count(
@@ -161,12 +186,16 @@ class ProductListView(ListView):
             .filter(product_count__gt=0)
         )
 
+        
         context['featured_products'] = (
             Product.objects
             .filter(is_available=True, is_discounted=True)
             .select_related('category')
             .prefetch_related('images')[:5]
         )
+
+        
+        context['current_sort'] = self.request.GET.get('sort', '')
 
         return context
     
@@ -179,17 +208,41 @@ class ShopView(LoginRequiredMixin, ListView):
     paginate_by = 4
 
     def get_queryset(self):
-        return (
-            Product.objects
-            .filter(is_available=True)
-            .select_related('category')
-            .prefetch_related('images')
-            .order_by('price')
-        )
+        product = Product.objects.filter(is_available=True).select_related('category').prefetch_related('images')
+
+        
+        search_query = self.request.GET.get('q')
+        if search_query:
+            product = product.filter(Q(name__icontains=search_query))
+
+        
+        min_price = self.request.GET.get('min_price')
+        if min_price:
+            product = product.filter(price__gte=min_price)
+
+        max_price = self.request.GET.get('max_price')
+        if max_price:
+            product = product.filter(price__lte=max_price)
+
+        
+        sort = self.request.GET.get('sort')
+        if sort == 'name_asc':
+            product = product.order_by('name')
+        elif sort == 'name_desc':
+            product = product.order_by('-name')
+        elif sort == 'price_asc':
+            product = product.order_by('price')
+        elif sort == 'price_desc':
+            product = product.order_by('-price')
+        else:
+            product = product.order_by('price')  
+
+        return product
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        
         context['categories'] = (
             Category.objects
             .annotate(product_count=Count(
@@ -199,14 +252,18 @@ class ShopView(LoginRequiredMixin, ListView):
             .filter(product_count__gt=0)
         )
 
-        context['quantity'] = Product.objects.count()
+        context['quantity'] = self.get_queryset().count()
 
+        
         context['featured_products'] = (
             Product.objects
             .filter(is_available=True, is_discounted=True)
             .select_related('category')
             .prefetch_related('images')[:5]
         )
+
+        
+        context['current_sort'] = self.request.GET.get('sort', '')
 
         return context
     
